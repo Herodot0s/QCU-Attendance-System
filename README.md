@@ -1,13 +1,3 @@
----
-
-# QCU Attendance System
-
-**A comprehensive attendance management solution designed for Quezon City University.**
-
-Developed by a group of aspiring IT students at **QCU San Francisco Campus** (Class of 2025), this application streamlines the process of tracking student attendance, managing class schedules, and generating reports using a modern desktop interface.
-
----
-
 ## 🚀 Overview
 
 The QCU Attendance System is a Windows Presentation Foundation (WPF) application built on **.NET 8.0**. It facilitates seamless interaction between administrators, professors, and students, replacing manual paper-based tracking with a digital, database-driven approach.
