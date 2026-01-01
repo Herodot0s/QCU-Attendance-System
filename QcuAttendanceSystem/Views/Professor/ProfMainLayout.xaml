@@ -1,0 +1,97 @@
+﻿<Window x:Class="QcuAttendanceSystem.Views.Professor.ProfMainLayout"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="QCU Professor Portal" Height="700" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F4F9">
+    <Window.Resources>
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="20,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                            <Grid Margin="{TemplateBinding Padding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" 
+                                           Grid.Column="0" FontSize="16" VerticalAlignment="Center"/>
+                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#990000"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="#800000">
+            <StackPanel>
+
+                <StackPanel Margin="0,40,0,40" HorizontalAlignment="Center">
+                    <Image Source="/Assets/logo_qcu.png" Height="80" Margin="0,0,0,10"/>
+                    <TextBlock Text="FACULTY PORTAL" Foreground="White" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Attendance System" Foreground="#CCFFFFFF" FontSize="12" HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <TextBlock Text="MAIN MENU" Foreground="#AAFFFFFF" FontSize="11" Margin="20,10"/>
+
+                <Button Content="Dashboard" Tag="📊" Style="{StaticResource NavButtonStyle}" Click="Nav_Dashboard_Click"/>
+                <Button Content="My Classes" Tag="📚" Style="{StaticResource NavButtonStyle}" Click="Nav_Classes_Click"/>
+                <Button Content="Attendance Reports" Tag="📑" Style="{StaticResource NavButtonStyle}" Click="Nav_Reports_Click"/>
+
+                <TextBlock Text="ACCOUNT" Foreground="#AAFFFFFF" FontSize="11" Margin="20,20,20,10"/>
+                <Button Content="User Management" Tag="👤" Style="{StaticResource NavButtonStyle}" Click="Nav_Users_Click"/>
+                <Button Content="Logout" Tag="🚪" Style="{StaticResource NavButtonStyle}" Click="Nav_Logout_Click"/>
+
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="White" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1">
+                <Grid Margin="30,0">
+                    <TextBlock x:Name="PageTitleText" Text="Dashboard" VerticalAlignment="Center" 
+                               FontSize="20" FontWeight="SemiBold" Foreground="#333"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <!-- Dynamic Name -->
+                        <TextBlock x:Name="txtProfName" Text="Loading..." VerticalAlignment="Center" Margin="0,0,10,0" Foreground="#555"/>
+
+                        <!-- Dynamic Initials Circle -->
+                        <Border Width="35" Height="35" CornerRadius="20" Background="#DDD">
+                            <TextBlock x:Name="txtProfInitials" Text="--" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#555" FontWeight="Bold"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Margin="0"/>
+        </Grid>
+    </Grid>
+</Window>

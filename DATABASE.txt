@@ -1,0 +1,48 @@
+CREATE TABLE [dbo].[Users] (
+    [UserID]   INT            IDENTITY (1, 1) NOT NULL,
+    [SchoolID] NVARCHAR (50)  NOT NULL,
+    [Username] NVARCHAR (50)  NOT NULL,
+    [Password] NVARCHAR (100) NOT NULL,
+    [FullName] NVARCHAR (100) NOT NULL,
+    [Role]     NVARCHAR (20)  NOT NULL,
+    [Course]   NVARCHAR (50)  NULL,
+    [Section]  NVARCHAR (50)  NULL,
+    PRIMARY KEY CLUSTERED ([UserID] ASC),
+    UNIQUE NONCLUSTERED ([SchoolID] ASC)
+);
+
+CREATE TABLE [dbo].[Enrollments] (
+    [EnrollmentID] INT IDENTITY (1, 1) NOT NULL,
+    [StudentID]    INT NOT NULL,
+    [ClassID]      INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([EnrollmentID] ASC),
+    CONSTRAINT [FK_Enrollments_Class] FOREIGN KEY ([ClassID]) REFERENCES [dbo].[Classes] ([ClassID]),
+    CONSTRAINT [FK_Enrollments_Student] FOREIGN KEY ([StudentID]) REFERENCES [dbo].[Users] ([UserID])
+);
+
+CREATE TABLE [dbo].[Classes] (
+    [ClassID]     INT            IDENTITY (1, 1) NOT NULL,
+    [SubjectCode] NVARCHAR (50)  NOT NULL,
+    [Description] NVARCHAR (100) NULL,
+    [Section]     NVARCHAR (50)  NOT NULL,
+    [Room]        NVARCHAR (50)  NULL,
+    [Day]         NVARCHAR (20)  NULL,
+    [StartTime]   NVARCHAR (20)  NULL,
+    [EndTime]     NVARCHAR (20)  NULL,
+    [ProfessorID] INT            NOT NULL,
+    PRIMARY KEY CLUSTERED ([ClassID] ASC),
+    CONSTRAINT [FK_Classes_Professor] FOREIGN KEY ([ProfessorID]) REFERENCES [dbo].[Users] ([UserID])
+);
+
+CREATE TABLE [dbo].[Attendance] (
+    [AttendanceID] INT            IDENTITY (1, 1) NOT NULL,
+    [EnrollmentID] INT            NOT NULL,
+    [Date]         DATE           NOT NULL,
+    [TimeIn]       DATETIME       NULL,
+    [Status]       NVARCHAR (20)  NOT NULL,
+    [Remarks]      NVARCHAR (255) NULL,
+    [TimeOut]      DATETIME       NULL,
+    PRIMARY KEY CLUSTERED ([AttendanceID] ASC),
+    CONSTRAINT [FK_Attendance_Enrollment] FOREIGN KEY ([EnrollmentID]) REFERENCES [dbo].[Enrollments] ([EnrollmentID])
+);
+

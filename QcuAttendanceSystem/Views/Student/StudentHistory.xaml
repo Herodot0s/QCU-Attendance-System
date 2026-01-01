@@ -1,0 +1,153 @@
+﻿<Page x:Class="QcuAttendanceSystem.Views.Student.StudentHistory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1000"
+      Title="My Attendance History"
+      FontFamily="Segoe UI"
+      Background="#FAFAFA">
+
+    <Page.Resources>
+        <!-- MAROON THEME & COLORS -->
+        <SolidColorBrush x:Key="PrimaryMaroon" Color="#800000"/>
+        <SolidColorBrush x:Key="TextDark" Color="#2D3436"/>
+        <SolidColorBrush x:Key="TextLight" Color="#636E72"/>
+
+        <!-- STATUS COLORS -->
+        <SolidColorBrush x:Key="StatusPresent" Color="#2E7D32"/>
+        <SolidColorBrush x:Key="StatusLate" Color="#EF6C00"/>
+        <SolidColorBrush x:Key="StatusAbsent" Color="#C62828"/>
+
+        <!-- CARD STYLE -->
+        <Style x:Key="StatCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,20,0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="15" ShadowDepth="2" Direction="270" Color="#000" Opacity="0.05"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DATAGRID STYLE -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#F5F5F5"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="RowHeight" Value="50"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource PrimaryMaroon}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="40,30,40,30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 1. HEADER -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,30">
+            <TextBlock Text="My Attendance History" FontSize="26" FontWeight="Bold" Foreground="{StaticResource PrimaryMaroon}"/>
+            <TextBlock Text="Track your daily attendance records" FontSize="14" Foreground="{StaticResource TextLight}" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- 2. SUMMARY CARDS -->
+        <Grid Grid.Row="1" Margin="0,0,0,30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- PRESENT CARD -->
+            <Border Grid.Column="0" Style="{StaticResource StatCard}">
+                <StackPanel>
+                    <TextBlock Text="TOTAL PRESENT" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextLight}" Opacity="0.7"/>
+                    <TextBlock x:Name="lblPresent" Text="0" FontSize="36" FontWeight="Bold" Foreground="{StaticResource StatusPresent}" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- LATE CARD -->
+            <Border Grid.Column="1" Style="{StaticResource StatCard}">
+                <StackPanel>
+                    <TextBlock Text="TOTAL LATE" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextLight}" Opacity="0.7"/>
+                    <TextBlock x:Name="lblLate" Text="0" FontSize="36" FontWeight="Bold" Foreground="{StaticResource StatusLate}" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ABSENT CARD -->
+            <Border Grid.Column="2" Style="{StaticResource StatCard}" Margin="0">
+                <StackPanel>
+                    <TextBlock Text="TOTAL ABSENT" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextLight}" Opacity="0.7"/>
+                    <TextBlock x:Name="lblAbsent" Text="0" FontSize="36" FontWeight="Bold" Foreground="{StaticResource StatusAbsent}" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- 3. HISTORY TABLE -->
+        <Border Grid.Row="2" Background="White" CornerRadius="8">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="5" Direction="270" Color="#000" Opacity="0.05"/>
+            </Border.Effect>
+
+            <Grid ClipToBounds="True">
+                <DataGrid x:Name="HistoryGrid" BorderThickness="0">
+                    <DataGrid.Columns>
+                        <!-- Date (Fixed binding format by adding single quotes) -->
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat='MMM dd, yyyy'}" Width="120" FontWeight="SemiBold"/>
+
+                        <!-- Class Info -->
+                        <DataGridTextColumn Header="Subject" Binding="{Binding SubjectCode}" Width="100"/>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+
+                        <!-- Times -->
+                        <DataGridTextColumn Header="Time In" Binding="{Binding TimeIn}" Width="100"/>
+                        <DataGridTextColumn Header="Time Out" Binding="{Binding TimeOut}" Width="100"/>
+
+                        <!-- Status Badge Column -->
+                        <DataGridTemplateColumn Header="Status" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="4" Padding="10,4" HorizontalAlignment="Left"
+                                            Background="{Binding StatusColor}">
+                                        <TextBlock Text="{Binding Status}" Foreground="White" FontWeight="SemiBold" FontSize="11" HorizontalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
